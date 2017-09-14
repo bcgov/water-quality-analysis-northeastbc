@@ -1,15 +1,14 @@
-<div id="devex-badge"><a rel="Exploration" href="https://github.com/BCDevExchange/docs/blob/master/discussion/projectstates.md"><img alt="Being designed and built, but in the lab. May change, disappear, or be buggy." style="border-width:0" src="https://assets.bcdevexchange.org/images/badges/exploration.svg" title="Being designed and built, but in the lab. May change, disappear, or be buggy." /></a></div>
-  # Copyright 2017 Province of British Columbia 
+# Copyright 2017 Province of British Columbia 
   
-  # Licensed under the Apache License, Version 2.0 (the "License"); 
-  # you may not use this file except in compliance with the License. 
-  # You may obtain a copy of the License at 
-  #  
-  # http://www.apache.org/licenses/LICENSE-2.0 
-  #  
-  # Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, 
-  # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-  # See the License for the specific language governing permissions and limitations under the License. 
+# Licensed under the Apache License, Version 2.0 (the "License"); 
+# you may not use this file except in compliance with the License. 
+# You may obtain a copy of the License at 
+  
+# http://www.apache.org/licenses/LICENSE-2.0 
+  
+# Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, 
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+# See the License for the specific language governing permissions and limitations under the License. 
 
 
 ############################################################################### 
@@ -45,7 +44,27 @@ filtered_twoyear <- filter_ems_data(twoyear,
                                               "0410039","0400134","0400492","0410028","E250094","E207448","E207449",
                                               "0400561","E206585","E253393","E249798","0400545","E256834","E256840",
                                               "E228061","E228062","E249801","E249804","E290869","E243640","E256837",
-                                              "0400560","0400145","E253394","E290871", "E282116"), 
+                                              "0400560","0400145","E253394","E290871", "E282116","1177702","E306397",
+                                              "E308499","E260100","E306398","E308498",
+                                              "E308497","E308496","E306399","E277175","E277174","E277176",
+                                              "E206319","E206757","E277178","E277172","0410097","E304933",
+                                              "E273200","E277177","E273199","E234064","E273195","E273196",
+                                              "E206322","E308494","E308493","E273193","E273194","E306408",
+                                              "E306409","E298950","E277176","E277173","E308815","E241806",
+                                              "E308686","E308677","E308812","E308814","E308811","E308670",
+                                              "E308813","E308669","E234066","E308668","E309376","E274887",
+                                              "E308810","E308809","E234065","E274889","E309386","E309378",
+                                              "E309377","E309385","E309383","E309384","E309382","E309394",
+                                              "E308687","E309392","E274888","E309390","E309381","E309389",
+                                              "E309391","E309380","E309393","0410092","E308672","0410059",
+                                              "E308994","E308993","E206321","E206973","E308667","E308679",
+                                              "E304951","E308667","E308986","E308988","E309387","E309388",
+                                              "E206323","0410057","E304936","E308989","E308997","E308818",
+                                              "E206324","E308995","E305987","E305989","0410060","0410092",
+                                              "E308994","E206526","E309379","E242344","E308990","E289554",
+                                              "0410099","0410100","E206755","0410058","E207460","E289553",
+                                              "E295109","E289556","E308820","E277611","E277610","E277609",
+                                              "E308495","E289552","0400552","E210870","E279733"), 
                                     to_date = "2017/05/24") 
 
 ## This function just needs to be run once, the first time you run the script
@@ -60,7 +79,27 @@ filtered_historic <- hist_db %>%
                        "E206521","E206526","E206972","0410042","E206705","E206959","0410039","0400134",
                        "0400492","0410028","E250094","E207448","E207449","0400561","E206585","E253393",
                        "E249798","0400545","E256834","E256840","E228061","E228062","E249801","E249804",
-                       "E290869","E243640","E256837","0400560","0400145","E253394","E290871","E282116"))                    
+                       "E290869","E243640","E256837","0400560","0400145","E253394","E290871","E282116",
+                       "1177702","E306397","E308499","E260100","E306398","E308498",
+                       "E308497","E308496","E306399","E277175","E277174","E277176",
+                       "E206319","E206757","E277178","E277172","0410097","E304933",
+                       "E273200","E277177","E273199","E234064","E273195","E273196",
+                       "E206322","E308494","E308493","E273193","E273194","E306408",
+                       "E306409","E298950","E277176","E277173","E308815","E241806",
+                       "E308686","E308677","E308812","E308814","E308811","E308670",
+                       "E308813","E308669","E234066","E308668","E309376","E274887",
+                       "E308810","E308809","E234065","E274889","E309386","E309378",
+                       "E309377","E309385","E309383","E309384","E309382","E309394",
+                       "E308687","E309392","E274888","E309390","E309381","E309389",
+                       "E309391","E309380","E309393","0410092","E308672","0410059",
+                       "E308994","E308993","E206321","E206973","E308667","E308679",
+                       "E304951","E308667","E308986","E308988","E309387","E309388",
+                       "E206323","0410057","E304936","E308989","E308997","E308818",
+                       "E206324","E308995","E305987","E305989","0410060","0410092",
+                       "E308994","E206526","E309379","E242344","E308990","E289554",
+                       "0410099","0410100","E206755","0410058","E207460","E289553",
+                       "E295109","E289556","E308820","E277611","E277610","E277609",
+                       "E308495","E289552","0400552","E210870","E279733"))                    
 
 filtered_historic <- collect(filtered_historic) %>% 
   mutate(COLLECTION_START = ems_posix_numeric(COLLECTION_START))
