@@ -1,0 +1,252 @@
+---
+title: "Watershed Summary Tables - In Text"
+author: British Columbia Ministry of Environment - Water Protection and Sustainability
+  Branch
+date: "July 28, 2017"
+output: word_document
+---
+# Copyright 2017 Province of British Columbia
+# 
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# 
+# http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software distributed under the 
+# License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and limitations under the 
+# License.
+
+#####################################################################
+# Module 4. CREATE WATER QUALITY SUMMARY STATS TABLES FOR CLEAN DATA
+####################################################################
+
+## The Upper Peace and Lower Peace Watersheds were separated into turbid and clear flow periods ## to view the data better. All other watersheds included all the years data grouped together. 
+
+```{r echo = FALSE, results='asis'}
+library(devtools)
+install_github("bcgov/wqbc", ref = "clean-nodrop") 
+library(rems)
+library(wqbc)
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+library(scales)
+library(xtable)
+library(knitr)
+
+twoyear <- get_ems_data(which = "2yr", ask = FALSE)
+twoyearparams <- distinct(twoyear, PARAMETER)
+filtered_twoyear <- filter_ems_data(twoyear, 
+                                    emsid = c("0410060","0410094","0410097","E206227","E206228","E206229","E206232","E206319","E206521",
+"E206526","E206972","0410042","E206705","E206959","0410039","0400134","0400492","0410028",
+"E250094","E207448","E207449","0400561","E206585","E253393","E249798","0400545","E256834",
+"E256840","E228061","E228062","E249801","E249804","E290869","E243640","E256837","0400560",
+"0400145","E253394","E290871","E282116","1177702","E306397","E308499","E260100","E306398",
+"E308498","E308497","E308496","E306399","E277175","E277174","E277176","E206319","E206757",
+"E277178","E277172","0410097","E304933","E273200","E277177","E273199","E234064","E273195",
+"E273196","E206322","E308494","E308493","E273193","E273194","E306408","E306409","E298950",
+"E277176","E277173","E308815","E241806","E308686","E308677","E308812","E308814","E308811",
+"E308670","E308813","E308669","E234066","E308668","E309376","E274887","E308810","E308809",
+"E234065","E274889","E309386","E309378","E309377","E309385","E309383","E309384","E309382",
+"E309394","E308687","E309392","E274888","E309390","E309381","E309389","E309391","E309380",
+"E309393","0410092","E308672","0410059","E308994","E308993","E206321","E206973","E308667",
+"E308679","E304951","E308667","E308986","E308988","E309387","E309388","E206323","0410057",
+"E304936","E308989","E308997","E308818","E206324","E308995","E305987","E305989","0410060",
+"0410092","E308994","E206526","E309379","E242344","E308990","E289554","0410099","0410100",
+"E206755","0410058","E207460","E289553","E295109","E289556","E308820","E277611","E277610",
+"E277609","E308495","E289552","0400552","E210870","E279733"), 
+                                    to_date = "2017/05/24") 
+#download_historic_data(ask = FALSE)
+
+hist_db <- attach_historic_data()
+filtered_historic <- hist_db %>% 
+  select(EMS_ID, MONITORING_LOCATION, LOCATION_TYPE, COLLECTION_START, LOCATION_PURPOSE, SAMPLE_CLASS, SAMPLE_STATE,
+         SAMPLE_DESCRIPTOR, PARAMETER_CODE, PARAMETER, ANALYTICAL_METHOD_CODE, ANALYTICAL_METHOD, RESULT_LETTER,
+         RESULT, UNIT, METHOD_DETECTION_LIMIT) %>% 
+  filter(EMS_ID %in% c("0410060","0410094","0410097","E206227","E206228","E206229","E206232","E206319","E206521",
+"E206526","E206972","0410042","E206705","E206959","0410039","0400134","0400492","0410028",
+"E250094","E207448","E207449","0400561","E206585","E253393","E249798","0400545","E256834",
+"E256840","E228061","E228062","E249801","E249804","E290869","E243640","E256837","0400560",
+"0400145","E253394","E290871","E282116","1177702","E306397","E308499","E260100","E306398",
+"E308498","E308497","E308496","E306399","E277175","E277174","E277176","E206319","E206757",
+"E277178","E277172","0410097","E304933","E273200","E277177","E273199","E234064","E273195",
+"E273196","E206322","E308494","E308493","E273193","E273194","E306408","E306409","E298950",
+"E277176","E277173","E308815","E241806","E308686","E308677","E308812","E308814","E308811",
+"E308670","E308813","E308669","E234066","E308668","E309376","E274887","E308810","E308809",
+"E234065","E274889","E309386","E309378","E309377","E309385","E309383","E309384","E309382",
+"E309394","E308687","E309392","E274888","E309390","E309381","E309389","E309391","E309380",
+"E309393","0410092","E308672","0410059","E308994","E308993","E206321","E206973","E308667",
+"E308679","E304951","E308667","E308986","E308988","E309387","E309388","E206323","0410057",
+"E304936","E308989","E308997","E308818","E206324","E308995","E305987","E305989","0410060",
+"0410092","E308994","E206526","E309379","E242344","E308990","E289554","0410099","0410100",
+"E206755","0410058","E207460","E289553","E295109","E289556","E308820","E277611","E277610",
+"E277609","E308495","E289552","0400552","E210870","E279733")) 
+
+filtered_historic <- collect(filtered_historic) %>% 
+  mutate(COLLECTION_START = ems_posix_numeric(COLLECTION_START))
+
+bind_data <- bind_ems_data(filtered_twoyear, filtered_historic) 
+bind_data <- filter(bind_data, SAMPLE_STATE == "Fresh Water")
+
+tidy_data <- tidy_ems_data(bind_data, mdl_action = "mdl")
+all_data <- filter(tidy_data, ResultLetter != ">" | is.na(ResultLetter))
+all_data <- filter(all_data,!grepl('Barometric|Biomass|Chlorophyll|Flow|Silica|Air|Streptococcus
+                                   |Salinity|Tannin|Surfactant|Moisture|Phaeophytin|Extractable|Extrac.
+                                   |Extractble|Extractbl', Variable))
+
+all_data_clean <- clean_wqdata(all_data, by = "EMS_ID", delete_outliers = TRUE)
+
+
+params_ug_L <- c("Arsenic Total", "Cadmium Dissolved", "Cobalt Total", "Copper Total", "Cyanide WAD", 
+                 "Lead Total", "Mercury Total", "Napthalene (C10H8)", "Nickel Total", "Selenium Total", 
+                 "Silver Total", "Thallium Total", "Toluene", "Uranium Total", "Zinc Total")
+
+all_data_clean <- mutate(all_data_clean, 
+                         Value = ifelse(Variable %in% params_ug_L, Value * 1000, Value),
+                         Units = ifelse(Variable %in% params_ug_L, "ug/L", Units))
+
+all_data_clean$Watershed <- NA
+
+colnames(all_data_clean)[which(names(all_data_clean) == "Monitoring_Site")] <- "EMS_ID"
+
+all_data_clean$Watershed[all_data_clean$EMS_ID %in% c("1177702","E306397","E308499","E260100","E306398","E308498",
+                                                      "E308497","E308496","E306399","E277175","E277174","E277176",
+                                                      "E206319","E206757","E277178","E277172","0410097","E304933",
+                                                      "E273200","E277177","E273199","E234064","E273195","E273196",
+                                                      "E206322","E308494","E308493","E273193","E273194","E306408",
+                                                      "E306409","E298950","E277176","E277173","E308815","E241806",
+                                                      "E308686","E308677","E308812","E308814","E308811","E308670",
+                                                      "E308813","E308669","E234066","E308668","E309376","E274887",
+                                                      "E308810","E308809","E234065","E274889","E309386","E309378",
+                                                      "E309377","E309385","E309383","E309384","E309382","E309394",
+                                                      "E308687","E309392","E274888","E309390","E309381","E309389",
+                                                      "E309391","E309380","E309393","0410092","E308672","0410059",
+                                                      "E308994","E308993","E206321","E206973","E308667","E308679",
+                                                      "E304951","E308667","E308986","E308988","E309387","E309388",
+                                                      "E206323","0410057","E304936","E308989","E308997","E308818",
+                                                      "E206324","E308995","E305987","E305989","0410060","0410092",
+                                                      "E308994","E206526","E309379","E242344","E308990","E289554",
+                                                      "0410099","0410100","E206755","0410058","E207460","E289553",
+                                                      "E295109","E289556","E308820","E277611","E277610","E277609",
+                                                      "E308495","E289552","0400552","E210870","E279733")]  <- "Murray River"
+
+all_data_clean$Watershed[all_data_clean$EMS_ID %in% c("0410039","E206959","E206705","0410042")]  <- "Pouce Coupe River"
+
+all_data_clean$Watershed[all_data_clean$EMS_ID %in% c("0400492","0400134","E249801")]  <- "Upper Peace River"
+
+all_data_clean$Watershed[all_data_clean$EMS_ID=="0410028"]  <- "Upper Pine River"
+
+all_data_clean$Watershed[all_data_clean$EMS_ID=="E250094"] <- "Blueberry River"
+
+all_data_clean$Watershed[all_data_clean$EMS_ID %in% c("E207448","E207449","0400145")]  <- "Lower Beatton River"
+
+all_data_clean$Watershed[all_data_clean$EMS_ID %in% c("0400560","0400561")]  <- "Lower Pine River"
+
+all_data_clean$Watershed[all_data_clean$EMS_ID=="E206585"]  <- "Lower Peace River"
+
+all_data_clean$Watershed[all_data_clean$EMS_ID %in% c("E253393","E253394")]  <- "Lynx Creek"
+
+all_data_clean$Watershed[all_data_clean$EMS_ID=="E249798"]  <- "Moberly River"
+
+all_data_clean$Watershed[all_data_clean$EMS_ID %in% c("0400545","E256834","E256837")]  <- "Middle Kiskatinaw River"
+
+all_data_clean$Watershed[all_data_clean$EMS_ID=="E256840"]  <- "East Kiskatinaw River"
+
+all_data_clean$Watershed[all_data_clean$EMS_ID %in% c("E228061","E228062")]  <- "Lower Kiskatinaw River"
+
+all_data_clean$Watershed[all_data_clean$EMS_ID=="E249804"]  <- "Milligan Creek"
+
+all_data_clean$Watershed[all_data_clean$EMS_ID %in% c("E290869","E282116")]  <- "Lower Petitot River"
+
+all_data_clean$Watershed[all_data_clean$EMS_ID=="E290871"]  <- "Middle Petitot River"
+
+all_data_clean$Watershed[all_data_clean$EMS_ID=="E243640"]  <- "Klua Creek"
+
+colnames(all_data_clean)[which(names(all_data_clean) == "EMS_ID")] <- "Monitoring_Site"
+
+##TURBID FLOWS DATA SUMMARY TABLE
+
+## UPPER PEACE
+
+up_peace <- filter(all_data_clean, Watershed == "Upper Peace River")
+up_peace$Date <- as.Date(up_peace$Date,"%Y-%m-%d")
+up_peace$Day <- as.integer(format(up_peace$Date, '%d'))
+up_peace$Year <- as.numeric(format(up_peace$Date,'%Y'))
+up_peace$Month <- as.character(format(up_peace$Date,'%b'))
+Yearsofdata <- distinct(up_peace, Year)
+numberofparams <- distinct(up_peace, Variable)
+
+up_peace_freshet <- filter(up_peace, Month == "Apr"| Month == "May"| Month == "Jun"| Month == "Jul") 
+up_peace_table <- up_peace_freshet %>%
+group_by(Variable, Units) %>%
+    summarise(Min=min(Value), Max=max(Value), Median=median(Value), n=length(Variable))
+table <- kable(up_peace_table, digits = 2, knitr.kable.NA = '', caption = " Upper Peace River Watershed: Summary of water chemistry data and simple statistics collected from April to July, 1972 to 2005.")
+print(table) 
+
+## LOWER PEACE
+## 
+lowpeace <- filter(all_data_clean, Watershed == "Lower Peace River")
+lowpeace$Date <- as.Date(lowpeace$Date,"%Y-%m-%d")
+lowpeace$Day <- as.integer(format(lowpeace$Date, '%d'))
+lowpeace$Year <- as.numeric(format(lowpeace$Date,'%Y'))
+lowpeace$Month <- as.character(format(lowpeace$Date,'%b'))
+Yearsofdata <- distinct(lowpeace, Year)
+numberofparams <- distinct(lowpeace, Variable)
+
+low_peace_freshet <- filter(lowpeace, Month == "Apr"| Month == "May"| Month == "Jun"| Month == "Jul"|Month == "Aug") 
+low_peace_table <- low_peace_freshet %>%
+group_by(Variable, Units, ResultLetter) %>%
+    summarise(Min=min(Value), Max=max(Value), Median=median(Value), n=length(Variable))
+table <- kable(low_peace_table, digits = 3, knitr.kable.NA = '', caption = "Lower Peace River Watershed: Summary of water chemistry data and simple statistics collected from April to July, 1984 to 2017.")
+print(table) 
+```
+
+```{r echo = FALSE, results='asis'}
+##cLEAR FLOWS DATA SUMMARY TABLE
+
+## UPPER PEACE
+up_peace_non_freshet <- filter(up_peace, Month == "Jan"| Month == "Feb"| Month == "Mar"| Month == "Aug"|Month == "Sep"|Month == "Oct"| Month == "Nov"| Month == "Dec")
+up_peace_non_freshet_table <- up_peace_non_freshet %>%
+group_by(Variable, Units) %>%
+    summarise(Min=min(Value), Max=max(Value), Median=median(Value), n=length(Variable))
+table <- kable(up_peace_non_freshet_table, digits = 3, knitr.kable.NA = '', caption = " Upper Peace River Watershed: Summary of water chemistry data and simple statistics collected during January to March and August to December, 1971 to 2009.")
+print(table) 
+
+## LOWER PEACE
+low_peace_non_freshet <- filter(lowpeace, Month == "Jan"| Month == "Feb"| Month == "Mar"|Month == "Sep"|Month == "Oct"| Month == "Nov"| Month == "Dec")
+low_peace_non_freshet_table <- low_peace_non_freshet %>%
+group_by(Variable, Units) %>%
+    summarise(Min=min(Value), Max=max(Value), Median=median(Value), n=length(Variable))
+table <- kable(low_peace_non_freshet_table, digits = 3, knitr.kable.NA = '', caption = "Lower Peace River Watershed: Summary of water chemistry data and simple statistics collected during January to March and August to December, 1984 to 2017.")
+print(table) 
+```
+
+```{r echo = FALSE, results='asis'}
+##SUMMARY TABLE FOR ALL DATES FOR ALL WATERSHEDS WITH RESULT LETTER
+watersheds <- c("Murray River","Pouce Coupe River","Upper Peace River", "Upper Pine River","Blueberry River","Lower Beatton River","Lower Pine River","Lower Peace River","Lynx Creek","Moberly River", "Middle Kiskatinaw River","East Kiskatinaw River","Lower Kiskatinaw River","Milligan Creek","Lower Petitot River","Middle Petitot River","Klua Creek")
+
+for (w in watersheds) {
+ sum_table <-filter(all_data_clean, Watershed == w)  
+  stats_sum <- sum_table %>%
+    group_by(Variable, Units, ResultLetter) %>%
+    summarise(Min=min(Value), Max=max(Value), Median=median(Value), n=length(Variable))
+table <- kable(stats_sum, digits = 5, knitr.kable.NA = '', caption = paste0(w," Watershed: Water Quality Summary"))
+print(table) 
+}
+```
+
+```{r echo = FALSE, results='asis'}
+##SUMMARY TABLE FOR ALL DATES FOR ALL WATERSHEDS WITHOUT RESULT LETTER (groups all parameters together)
+for (w in watersheds) {
+ sum_table <-filter(all_data_clean, Watershed == w)  
+  stats_sum <- sum_table %>%
+    group_by(Variable, Units, Watershed) %>%
+    summarise(Min=min(Value), Max=max(Value), Median=median(Value), n=length(Variable))
+table <- kable(stats_sum, digits = 5, knitr.kable.NA = '', caption = paste0(w," Watershed: Water Quality Summary"))
+print(table) 
+}
+```
+
