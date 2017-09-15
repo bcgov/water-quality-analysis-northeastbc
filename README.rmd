@@ -1,7 +1,6 @@
 ---
-output:
-  md_document:
-    variant: markdown_github
+output: github_document
+html_preview: true
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -16,12 +15,14 @@ knitr::opts_chunk$set(
 
 <div id="devex-badge"><a rel="Exploration" href="https://github.com/BCDevExchange/docs/blob/master/discussion/projectstates.md"><img alt="Being designed and built, but in the lab. May change, disappear, or be buggy." style="border-width:0" src="https://assets.bcdevexchange.org/images/badges/exploration.svg" title="Being designed and built, but in the lab. May change, disappear, or be buggy." /></a></div>
 
-# Description of Analysis Code
+# Water quality analysis for Northeast British Columbia
 
-### Usage
+## Usage
 
-Raw data is loaded from the Government of B.C. Data Catalogue using the R package `rems`
-https://catalogue.data.gov.bc.ca/dataset/bc-environmental-monitoring-system-results 
+The raw data is available from the B.C. Data Catalogue under the Open Government Licence - Brisith Columbia: 
+https://catalogue.data.gov.bc.ca/dataset/bc-environmental-monitoring-system-results
+
+The data is sourced using the R package `rems`: https://github.com/bcgov/rems
 
 There are five core scripts that are required for this water quality characterization; they need to be run in order:
 
@@ -31,19 +32,20 @@ There are five core scripts that are required for this water quality characteriz
 - 04_table_output.R
 - 05_plot_output.R
 
-### Project Status
+## Project Status
+The package is under active development.
 
-### Getting Help or Reporting an Issue
+## Getting Help or Reporting an Issue
 
-To report bugs/issues/feature requests, please file an [issue](https://github.com/bcgov/WaterQuality_NortheastBC/issues/).
+To report bugs/issues/feature requests, please file an [issue](https://github.com/bcgov/water_quality_analysis_NortheastBC/issues/).
 
-### How to Contribute
+## How to Contribute
 
 If you would like to contribute, please see our [CONTRIBUTING](CONTRIBUTING.md) guidelines.
 
 Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
 
-### License
+## License
 
     Copyright 2017 Province of British Columbia
 
@@ -58,3 +60,5 @@ Please note that this project is released with a [Contributor Code of Conduct](C
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
+    
+This repository is maintained by the [ENVWater Team](https://github.com/orgs/bcgov/teams/envwater/members) in the [GitHub BCGov Organization](https://github.com/bcgov). 
