@@ -8,4 +8,9 @@ internal.R
 *csv
 *png
 Appendix.Rmd
-initial_vis
+initial_vis/
+water_quality_analysis_NortheastBC.Rproj
+Final_plots/
+Initial_vis_plots/
+Raw_Data/
+*xlsx
