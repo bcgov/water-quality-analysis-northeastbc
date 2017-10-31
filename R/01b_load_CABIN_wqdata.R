@@ -27,9 +27,9 @@ library(dplyr)
 twoyear <- get_ems_data(which = "2yr", ask = TRUE)
 
 filtered_twoyear_env_cabin <- filter_ems_data(twoyear, 
-                                    emsid = c("E298950","E306409","E306408","E306400","E306399","E306398",
+                                    emsid = c("E273193","E273194","E273195","E273196","E273197","E273198","E273199","E273200","E298950","E306409","E306408","E306400","E306399","E306398",
                                               "E306397"), 
-                                    to_date = "2017/09/08") 
+                                    to_date = "2017/10/31") 
 
                   
 tidy_data_env_cabin <- tidy_ems_data(filtered_twoyear_env_cabin, mdl_action = "mdl")
