@@ -37,7 +37,7 @@ library(dplyr)
 #Remove_data_cache("2yr")
 #Remove_data_cache("Historic")
 twoyear <- get_ems_data(which = "2yr", ask = TRUE)
-twoyearparams <- distinct(twoyear, PARAMETER)
+
 filtered_twoyear <- filter_ems_data(twoyear, 
                                     emsid = c("0410060","0410094","0410097","E206227","E206228","E206229","E206232",
                                               "E206319","E206521","E206526","E206972","0410042","E206705","E206959",
@@ -64,7 +64,7 @@ filtered_twoyear <- filter_ems_data(twoyear,
                                               "E308994","E206526","E309379","E242344","E308990","E289554",
                                               "0410099","0410100","E206755","0410058","E207460","E289553",
                                               "E295109","E289556","E308820","E277611","E277610","E277609",
-                                              "E308495","E289552","0400552","E210870","E279733","1177702","E206225","E206226"),
+                                              "E308495","E289552","0400552","E210870","E279733","1177702","E206225","E206226","E277612","E277613","E277614","E289555"),
                                     to_date = "2017/10/31")
 
 ## This function just needs to be run once, the first time you run the script
@@ -99,13 +99,14 @@ filtered_historic <- hist_db %>%
                        "E308994","E206526","E309379","E242344","E308990","E289554",
                        "0410099","0410100","E206755","0410058","E207460","E289553",
                        "E295109","E289556","E308820","E277611","E277610","E277609",
-                       "E308495","E289552","0400552","E210870","E279733","1177702","E206225","E206226"))                    
+                       "E308495","E289552","0400552","E210870","E279733","1177702","E206225","E206226","E277612","E277613","E277614","E289555"))                    
 
 filtered_historic <- collect(filtered_historic) %>% 
   mutate(COLLECTION_START = ems_posix_numeric(COLLECTION_START))
 
 bind_data <- bind_ems_data(filtered_twoyear, filtered_historic) 
 bind_data <- filter(bind_data, SAMPLE_STATE == "Fresh Water")
+params <- distinct(bind_data, PARAMETER)
 
 ## TIDY DATASET
 ## 
