@@ -96,7 +96,7 @@ all_data_clean$Watershed[all_data_clean$EMS_ID %in% c("0400560","0400561")]  <- 
 
 all_data_clean$Watershed[all_data_clean$EMS_ID=="E206585"]  <- "Lower Peace River"
 
-all_data_clean$Watershed[all_data_clean$EMS_ID %in% c("E253393","E253394")]  <- "Lynx Creek"
+all_data_clean$Watershed[all_data_clean$EMS_ID %in% c("E253393","E253394","E253405","E253399","E253406","E253398","E253404","E253397","E253396","E253402","E253401","E253400","E253395")]  <- "Lynx Creek"
 
 all_data_clean$Watershed[all_data_clean$EMS_ID=="E249798"]  <- "Moberly River"
 
