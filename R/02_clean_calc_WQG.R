@@ -34,7 +34,7 @@ all_data_clean <- mutate(all_data_clean,
                          Units = ifelse(Variable %in% params_ug_L, "µg/L", Units))
 
 ## WRITE CSV FOR RAW DATASET
-write.csv(all_data_clean, 'all_data_clean.csv', row.names = FALSE)
+# write.csv(all_data_clean, 'all_data_clean.csv', row.names = FALSE)
 
 ## View summary of parameters included in the dataframe
 parameters <- distinct(all_data_clean, Variable) 
@@ -50,9 +50,9 @@ sites <- distinct(all_data_clean, EMS_ID)
 ## `estimate_variables = TRUE`, in which case a parametric model is used to predict the pH, Total Chloride
 ## and Total Hardness for all dates with a value of any variable. 
 ## Deletes any parameters which don't have limits
-all_data_limits <- calc_limits(all_data_clean, by = "EMS_ID", 
-                               term = "long-daily", estimate_variables = TRUE, 
-                               clean = FALSE, messages = TRUE)
+# all_data_limits <- calc_limits(all_data_clean, by = "EMS_ID", 
+#                                term = "long-daily", estimate_variables = TRUE, 
+#                                clean = FALSE, messages = TRUE)
 
 ## WATERSHED DATAFRAMES
 ## Add watershed column to dataframe and assign watershed name to a set of monitoring sites
@@ -94,7 +94,7 @@ all_data_clean$Watershed[all_data_clean$EMS_ID %in% c("E207448","E207449","04001
 
 all_data_clean$Watershed[all_data_clean$EMS_ID %in% c("0400560","0400561")]  <- "Lower Pine River"
 
-all_data_clean$Watershed[all_data_clean$EMS_ID=="E206585"]  <- "Lower Peace River"
+all_data_clean$Watershed[all_data_clean$EMS_ID %in% c("E206585","E249800","0400146","0400147","0400148","0400142","0400143","0400144","E207631","0400139","0400138","0400140","0410054","0410055")]  <- "Lower Peace River"
 
 all_data_clean$Watershed[all_data_clean$EMS_ID %in% c("E253393","E253394","E253405","E253399","E253406","E253398","E253404","E253397","E253396","E253402","E253401","E253400","E253395")]  <- "Lynx Creek"
 
