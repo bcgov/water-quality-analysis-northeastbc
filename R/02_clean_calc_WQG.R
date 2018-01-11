@@ -20,7 +20,7 @@
 ## Changes negative temperature values to 0 and deletes rows with missing values
 ## Replicates on same day are averaged. 
 ## Identifies outliers. These can be kept or deleted (`delete_outliers = TRUE` or `delete_outliers = FALSE`). 
-all_data_clean <- clean_wqdata(all_data, by = "EMS_ID", delete_outliers = TRUE)
+# all_data_clean <- clean_wqdata(all_data, by = "EMS_ID", delete_outliers = TRUE)
 
 
 ## UNIT CONVERSION FROM mg/L to ug/L. Define your list of parameters once and use it repeatedly.
@@ -29,7 +29,7 @@ params_ug_L <- c("Arsenic Total", "Cadmium Dissolved", "Cobalt Total", "Copper T
                  "Lead Total", "Mercury Total", "Napthalene (C10H8)", "Nickel Total", "Selenium Total", 
                  "Silver Total", "Thallium Total", "Toluene", "Uranium Total", "Zinc Total")
 
-all_data_clean <- mutate(all_data_clean, 
+all_data_clean <- mutate(all_data_clean,
                          Value = ifelse(Variable %in% params_ug_L, Value * 1000, Value),
                          Units = ifelse(Variable %in% params_ug_L, "µg/L", Units))
 
@@ -84,7 +84,7 @@ all_data_clean$Watershed[all_data_clean$EMS_ID %in% c("1177702","E306397","E3084
 
 all_data_clean$Watershed[all_data_clean$EMS_ID %in% c("0410039","E206959","E206705","0410042")]  <- "Pouce Coupe River"
 
-all_data_clean$Watershed[all_data_clean$EMS_ID %in% c("0400492","0400134","E249801")]  <- "Upper Peace River"
+all_data_clean$Watershed[all_data_clean$EMS_ID %in% c("0400492","0400134","E249801","E207906","0400136","0400135","0410018","0400491","E253389")]  <- "Upper Peace River"
 
 all_data_clean$Watershed[all_data_clean$EMS_ID=="0410028"]  <- "Upper Pine River"
 
@@ -124,7 +124,7 @@ up_peace$Day <- as.integer(format(up_peace$Date, '%d'))
 up_peace$Year <- as.numeric(format(up_peace$Date,'%Y'))
 up_peace$Month <- as.character(format(up_peace$Date,'%b'))
 Yearsofdata <- distinct(up_peace, Year)
-numberofparams <- distinct(up_peace, Variable)
+numberofparams <- distinct(up_peace, Monitoring_Site, Variable)
 
 ## UPPER PINE RIVER
 
@@ -260,7 +260,7 @@ lowpeace$Day <- as.integer(format(lowpeace$Date, '%d'))
 lowpeace$Year <- as.numeric(format(lowpeace$Date,'%Y'))
 lowpeace$Month <- as.character(format(lowpeace$Date,'%b'))
 Yearsofdata <- distinct(lowpeace, Year)
-numberofparams <- distinct(lowpeace, Variable)
+numberofparams <- distinct(lowpeace, Monitoring_Site, Variable)
 lowpeace <- filter(lowpeace, Value != "161.5" | is.na(Value))
 
 ## LOWER PINE
