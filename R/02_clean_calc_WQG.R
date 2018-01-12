@@ -20,7 +20,7 @@
 ## Changes negative temperature values to 0 and deletes rows with missing values
 ## Replicates on same day are averaged. 
 ## Identifies outliers. These can be kept or deleted (`delete_outliers = TRUE` or `delete_outliers = FALSE`). 
-# all_data_clean <- clean_wqdata(all_data, by = "EMS_ID", delete_outliers = TRUE)
+all_data_clean <- clean_wqdata(all_data, by = "EMS_ID", delete_outliers = TRUE)
 
 
 ## UNIT CONVERSION FROM mg/L to ug/L. Define your list of parameters once and use it repeatedly.
@@ -90,7 +90,7 @@ all_data_clean$Watershed[all_data_clean$EMS_ID=="0410028"]  <- "Upper Pine River
 
 all_data_clean$Watershed[all_data_clean$EMS_ID=="E250094"] <- "Blueberry River"
 
-all_data_clean$Watershed[all_data_clean$EMS_ID %in% c("E207448","E207449","0400145")]  <- "Lower Beatton River"
+all_data_clean$Watershed[all_data_clean$EMS_ID %in% c("E207448","E207449","0400145","E219248","E219248","E218979","0410023","E207902","E207901","E250091","E207904","E249803","0400397")]  <- "Lower Beatton River"
 
 all_data_clean$Watershed[all_data_clean$EMS_ID %in% c("0400560","0400561")]  <- "Lower Pine River"
 
@@ -281,9 +281,9 @@ lowbeat$Day <- as.integer(format(lowbeat$Date, '%d'))
 lowbeat$Year <- as.numeric(format(lowbeat$Date,'%Y'))
 lowbeat$Month <- as.character(format(lowbeat$Date,'%b'))
 Yearsofdata <- distinct(lowbeat, Year)
-numberofparams <- distinct(lowbeat, Variable)
-##Take out 1970s zinc data
-lowbeat <- filter(lowbeat, Monitoring_Site != "0400145" | is.na(Monitoring_Site))
+numberofparams <- distinct(lowbeat, Monitoring_Site, Variable)
+# ##Take out 1970s zinc data
+# lowbeat <- filter(lowbeat, Monitoring_Site != "0400145" | is.na(Monitoring_Site))
 
 ## MURRAY RIVER
 
