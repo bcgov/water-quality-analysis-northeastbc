@@ -82,17 +82,17 @@ all_data_clean$Watershed[all_data_clean$EMS_ID %in% c("1177702","E306397","E3084
                                                       "E295109","E289556","E308820","E277611","E277610","E277609",
                                                       "E308495","E289552","0400552","E210870","E279733")]  <- "Murray River"
 
-all_data_clean$Watershed[all_data_clean$EMS_ID %in% c("0410039","E206959","E206705","0410042")]  <- "Pouce Coupe River"
+all_data_clean$Watershed[all_data_clean$EMS_ID %in% c("0410039","E206959","E206705","0410042","E209204","E206703","E209205","E209207","E209201","E209206","E209202","E209208","E206706","0410040","0410032","0410031","E234288","0410033","0410034")]  <- "Pouce Coupe River"
 
 all_data_clean$Watershed[all_data_clean$EMS_ID %in% c("0400492","0400134","E249801","E207906","0400136","0400135","0410018","0400491","E253389")]  <- "Upper Peace River"
 
-all_data_clean$Watershed[all_data_clean$EMS_ID=="0410028"]  <- "Upper Pine River"
+all_data_clean$Watershed[all_data_clean$EMS_ID %in% c("0410029","0400562","E250093","E242324","E206235","0410093")]  <- "Upper Pine River"
 
 all_data_clean$Watershed[all_data_clean$EMS_ID=="E250094"] <- "Blueberry River"
 
 all_data_clean$Watershed[all_data_clean$EMS_ID %in% c("E207448","E207449","0400145","E219248","E219248","E218979","0410023","E207902","E207901","E250091","E207904","E249803","0400397")]  <- "Lower Beatton River"
 
-all_data_clean$Watershed[all_data_clean$EMS_ID %in% c("0400560","0400561")]  <- "Lower Pine River"
+all_data_clean$Watershed[all_data_clean$EMS_ID %in% c("0400560","0400561","E207956","0400141")]  <- "Lower Pine River"
 
 all_data_clean$Watershed[all_data_clean$EMS_ID %in% c("E206585","E249800","0400146","0400147","0400148","0400142","0400143","0400144","E207631","0400139","0400138","0400140","0410054","0410055")]  <- "Lower Peace River"
 
