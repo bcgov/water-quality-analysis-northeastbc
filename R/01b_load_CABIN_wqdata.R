@@ -14,14 +14,6 @@
 # Module 1b. LOAD CABIN WATER QUALITY DATA FROM EMS
 ############################################################################### 
 
-library(devtools)
-library(rems)
-library(wqbc)
-library(ggplot2)
-library(tidyr)
-library(scales)
-library(dplyr)
-
 ## LOAD TWO YEAR EMS WATER QUALITY DATASET from BC Data Catalogue using bcgov/rems package
 
 twoyear <- get_ems_data(which = "2yr", ask = TRUE)
