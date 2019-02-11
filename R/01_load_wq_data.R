@@ -11,8 +11,7 @@
 # See the License for the specific language governing permissions and limitations under the License. 
 
 
-############################################################################### 
-# Module 1. LOAD PACKAGES, FUNCTIONS AND NORTHEAST WATER QUALTIY DATA FROM EMS
+############################################################################### ## Module 1. LOAD PACKAGES, FUNCTIONS AND NORTHEAST WATER QUALTIY DATA FROM EMS
 ############################################################################### 
 
 # install.packages("devtools")
@@ -34,11 +33,14 @@ library(lubridate)
 
 
 ## LOAD TWO YEAR AND HISTORIC EMS WATER QUALITY DATASET from BC Data Catalogue using bcgov/rems package
+## 
+## Remove data cache if you have an outdated version on your computer
 
 #Remove_data_cache("2yr")
 #Remove_data_cache("Historic")
 twoyear <- get_ems_data(which = "2yr", ask = TRUE)
 
+## These sites were chosen using imap BC and adding map layers: Water Management Basins and Environmental Monitoring Stations – Water Sites (Water Monitoring) map layers in iMapBC. The EMS monitoring sites selected included “Background” or “Trend” sites located on rivers, streams and creeks. For more information see: https://www2.gov.bc.ca/assets/gov/environment/air-land-water/water/northeast-water-strategy/news_ne_wq_summary_2018.pdf
 filtered_twoyear <- filter_ems_data(twoyear, 
                                     emsid = c("0410060","0410094","0410097","E206227","E206228","E206229","E206232","E206319","E206521","E206526","E206972","0410042","E206705","E206959","0410039","0400134","0400492","0410028","E250094","E207448","E207449","0400561","E206585","E253393","E249798","0400545","E256834","E256840","E228061","E228062","E249801","E249804","E290869","E243640","E256837","0400560","0400145","E253394","E290871","E282116","1177702","E306397","E308499","E260100","E306398","E308498",
                        "E308497","E308496","E306399","E277175","E277174","E277176",
@@ -61,7 +63,7 @@ filtered_twoyear <- filter_ems_data(twoyear,
                        "E295109","E289556","E308820","E277611","E277610","E277609",
                        "E308495","E289552","0400552","E210870","E279733","E206225","E206226","E277612","E277613","E277614","E289555","0410041","0410028","0400562","E283430","E257094","E219248","E253405","E253399","E253406","E253398","E253404","E253397","E253396","E253402","E253401","E253400","E253395","E253403","E283432","E283431","E260101","E260102","1177731","E265925","E265929","1177729","1177730","1177733","1177737","1177736","1177732","1177738","1177739","1177743","1177742","E207905","E260099","E250092","E249805","E256842","1134019","E277186","E286794","E263630","E286795","1177720","E273189","E273188","E276709","E273190","E286793","E286792","E273191","E273192","E234188","E234187","E234186","E306405","E286789","E238662","E306402","E306401","E306403","E295021","1132028","E309217","E309218","E309547","E243581","E303831","E303845","E305437","E305433","E306404","1132051","1100081","E309216","E309215","E309189","E277179","E303830","E303851","E305434","E261497","E249800","0400146","0400147","0400148","0400142","0400143","0400144","E207631","0400139","0400138","0400140","E249829","E207956","E222073","E222074","0410054","0410055","E222075","E207631","E222076","E222077","E261498","E228002","E207906","0400136","0400135","E222072","0410017","0410018","0400491","E253389","E219248","E218979","E207659","0410023","0400396","E207902","E207901","E250091","E207904","E249803","0400397","E223191","E257877","E250811"), to_date = "2017/11/09")
 
-## This function just needs to be run once, the first time you run the script
+## This function just needs to be run once; the first time you run the script
 #download_historic_data(ask = FALSE)
 
 hist_db <- attach_historic_data()
@@ -93,8 +95,13 @@ filtered_historic <- hist_db %>%
 filtered_historic <- collect(filtered_historic) %>% 
   mutate(COLLECTION_START = ems_posix_numeric(COLLECTION_START))
 
+## Attach both the two year and historic dataframes
 bind_data <- bind_ems_data(filtered_twoyear, filtered_historic) 
+
+## Retain only the Fresh Water samples
 bind_data <- filter(bind_data, SAMPLE_STATE == "Fresh Water")
+
+## Create a list of water quality parameters in the dataframe
 #params <- distinct(bind_data, PARAMETER)
 
 ## TIDY DATASET
