@@ -1,4 +1,9 @@
-### 1) Murray River Watershed
+## Specific plots for the final report, grouped by watershed and saved as .png files. 
+## 
+## Change Monitoring_site column name back to EMS_ID 
+ colnames(all_data_clean)[which(names(all_data_clean) == "Monitoring_Site")] <- "EMS_ID"
+## 
+## 1) Murray River Watershed
   
 murray <- filter(all_data_clean, EMS_ID == "0410060"| EMS_ID == "0410094"
                  | EMS_ID == "0410097"| EMS_ID == "E206227"| EMS_ID == "E206228"
@@ -19,7 +24,7 @@ Se_plot <- filter(murray, EMS_ID == "0410094"| EMS_ID == "E206227"| EMS_ID == "E
   ylab("Total Selenium (µg/L)")
   plot(plot)
   
-  ggsave(filename = "Se_murr.png", plot = plot, path = 'Z:/WPS/Watershed Science/Water Quality & Aquatic Sciences Unit/NEWS WQ Project/WQ Characterization/Report/Final_plots', width = 5, height = 5, units= "in")
+  #ggsave(filename = "Se_murr.png", plot = plot, path = 'X', width = 5, height = 5, units= "in")
   
   
 TNO3_plot <- filter(murray, EMS_ID == "0410094"| EMS_ID == "E206227", 
@@ -35,7 +40,8 @@ plot <- ggplot(TNO3_plot, aes(x = Date, y = Value, color = EMS_ID)) +
     ylab("Total Nitrate (mg/L)")
   plot(plot)
   
-ggsave(filename = "TNO3_murr.png", plot = plot, path = 'Z:/WPS/Watershed Science/Water Quality & Aquatic Sciences Unit/NEWS WQ Project/WQ Characterization/R Project/NorthEast/Report/Plots', width = 5, height = 5, units= "in")
+#ggsave(filename = "TNO3_murr.png", plot = plot, path = 'X', width = 5, height = 5, units= "in")
+
 
 DNO3_plot <- filter(murray, EMS_ID == "E206319"| EMS_ID == "E206521"| EMS_ID == "E206972"|
                       EMS_ID == "E206526", Variable == "Nitrate (NO3) Dissolved", Date != "1985-09-18")
@@ -48,10 +54,9 @@ plot <- ggplot(DNO3_plot, aes(x = Date, y = Value, color = EMS_ID)) +
     ylab("Dissolved Nitrate (mg/L)")
   plot(plot)
   
-ggsave(filename = "DNO3_murr.png", 
-       plot = plot, path = 'Z:/WPS/Watershed Science/Water Quality & Aquatic Sciences Unit/NEWS WQ Project/WQ Characterization/R Project/NorthEast/Report/Plots', width = 5, height = 5, units= "in")
+#ggsave(filename = "DNO3_murr.png", plot = plot, path = 'X', width = 5, height = 5, units= "in")
 
-### 2) Pouce Coupe River Watershed
+## 2) Pouce Coupe River Watershed
 
 pc_N <- filter(pc, Variable == "Nitrate(NO3) + Nitrite(NO2) Dissolved")
 plot <- ggplot(pc_N, aes(x = Date, y = Value, colour = Monitoring_Site, scales = "free_y")) + 
@@ -69,7 +74,8 @@ plot <- ggplot(pc_N, aes(x = Date, y = Value, colour = Monitoring_Site, scales =
   ylab("Dissolved Nitrate + Nitrite (mg/L)")
 plot(plot)
 
-ggsave(filename = "Pouce_Coupe_Nitrate+Nitrite.png", plot = plot, path = 'Z:/WPS/Watershed Science/Water Quality & Aquatic Sciences Unit/NEWS WQ Project/WQ Characterization/Report/Final_plots', width = 7, height = 5, units= "in")
+#ggsave(filename = "Pouce_Coupe_Nitrate+Nitrite.png", plot = plot, path = 'X', width = 7, height = 5, units= "in")
+
 
 pc_T <- filter(pc, Variable == "Turbidity")
 plot <- ggplot(pc_T, aes(x = Date, y = Value, scales = "free_y")) + 
@@ -86,7 +92,8 @@ plot <- ggplot(pc_T, aes(x = Date, y = Value, scales = "free_y")) +
   ylab("Value")
 plot(plot)
 
-ggsave(filename = "Pouce_Coupe_Turbs.png", plot = plot, path = 'Z:/WPS/Watershed Science/Water Quality & Aquatic Sciences Unit/NEWS WQ Project/WQ Characterization/R Project/NorthEast/Report/Plots', width = 5, height = 5, units= "in")
+#ggsave(filename = "Pouce_Coupe_Turbs.png", plot = plot, path = 'X', width = 5, height = 5, units= "in")
+
 
 pc_ammon <- filter(pc, Variable == "Nitrogen Ammonia Dissolved")
 plot <- ggplot(pc_ammon, aes(x = Date, y = Value, scales = "free_y")) + 
@@ -103,7 +110,7 @@ plot <- ggplot(pc_ammon, aes(x = Date, y = Value, scales = "free_y")) +
   ylab("Value")
 plot(plot)
 
-ggsave(filename = "Pouce_Coupe_ammonia.png", plot = plot, path = 'Z:/WPS/Watershed Science/Water Quality & Aquatic Sciences Unit/NEWS WQ Project/WQ Characterization/R Project/NorthEast/Report/Plots', width = 5, height = 5, units= "in")
+#ggsave(filename = "Pouce_Coupe_ammonia.png", plot = plot, path = 'X', width = 5, height = 5, units= "in")
 
 #pc_Nitrate <- filter(pc, Variable == "Nitrate (NO3) Dissolved")
 #plot <- ggplot(pc_Nitrate, aes(x = Date, y = Value, colour = Monitoring_Site)) + 
@@ -139,12 +146,12 @@ plot <- ggplot(As_plot, aes(x = Date, y = Value)) +
   xlab("Date") +
   ylab("Value")
 plot(plot)
-ggsave(filename = "Pouce_Coupe_Arsenic.png", plot = plot, path = 'Z:/WPS/Watershed Science/Water Quality & Aquatic Sciences Unit/NEWS WQ Project/WQ Characterization/R Project/NorthEast/Report/Plots', width = 5, height = 5, units= "in")
+#ggsave(filename = "Pouce_Coupe_Arsenic.png", plot = plot, path = 'X', width = 5, height = 5, units= "in")
 
 
-### 3) Upper Peace River Watershed
+## 3) Upper Peace River Watershed
 
-#CU AND ZN PLOT
+## CU AND ZN PLOT
 Zn_Cu_plot <- filter(all_data_limits, EMS_ID == "0400492"|EMS_ID == "0400134", Variable == "Copper Total"|Variable == "Zinc Total")
 plot <- ggplot(Zn_Cu_plot, aes(x = Date, y = Value)) + 
   #expand_limits(y = c(0, 1)) +
@@ -156,10 +163,10 @@ plot <- ggplot(Zn_Cu_plot, aes(x = Date, y = Value)) +
 
 plot(plot)
 
-ggsave(filename = "Upper.Peace.River_CuZn.png", plot = plot, path = 'Z:/WPS/Watershed Science/Water Quality & Aquatic Sciences Unit/NEWS WQ Project/WQ Characterization/Report/Final_plots', width = 5, height = 5, units= "in")
+#ggsave(filename = "Upper.Peace.River_CuZn.png", plot = plot, path = 'X', width = 5, height = 5, units= "in")
 
 
-#IRON TOTAL PLOT
+## IRON TOTAL PLOT
 
 up_peace <- filter(all_data_clean, Monitoring_Site == "0400134"|Monitoring_Site == "0400492")
 
@@ -173,10 +180,10 @@ plot <- ggplot(up_peace_Feplot, aes(x = Date, y = Value, colour = Monitoring_Sit
   xlab("Date") +
   ylab("Total Iron (mg/L)")
 plot(plot)
-ggsave(filename = "uppeace_Fe.png", plot = plot, path = 'Z:/WPS/Watershed Science/Water Quality & Aquatic Sciences Unit/NEWS WQ Project/WQ Characterization/R Project/NorthEast/Report/Plots', width = 7, height = 5, units= "in")
+#ggsave(filename = "uppeace_Fe.png", plot = plot, path = 'X', width = 7, height = 5, units= "in")
 
 
-#TURB VS CU PLOT
+## TURB VS CU PLOT
 up_peace_turb_cu <- filter(all_data_clean, Watershed == "Upper Peace River", Variable == "Copper Total"|Variable == "Turbidity")
 up_peace_turb_cu <- spread(up_peace_turb_cu, key=Variable, value=Value)
 colnames(up_peace_turb_cu)[which(names(up_peace_turb_cu) == "Copper Total")] <- "Copper_Total"
@@ -186,7 +193,7 @@ plot <- boxplot(Copper_Total~Turbidity, data=up_peace_turb_cu, main="Turbs vs Cu
 plot(plot)
 
 
-### 6) Blueberry River Watershed
+## 6) Blueberry River Watershed
 
 Al_plot <- filter(all_data_limits, Variable == "Aluminium Dissolved", EMS_ID == "E250094")
 
@@ -205,7 +212,7 @@ plot <- ggplot(Al_plot, aes(x = Date, y = Value)) +
 
 plot(plot)
 
-ggsave(filename = "blueberry_Al.png", plot = plot, path = 'Z:/WPS/Watershed Science/Water Quality & Aquatic Sciences Unit/NEWS WQ Project/WQ Characterization/R Project/NorthEast/Report/Plots', width = 5, height = 5, units= "in")
+#ggsave(filename = "blueberry_Al.png", plot = plot, path = 'X', width = 5, height = 5, units= "in")
 
 blue_Cu_plot <- filter(all_data_limits, Variable == "Copper Total", EMS_ID == "E250094")
 
@@ -224,7 +231,7 @@ plot <- ggplot(blue_Cu_plot, aes(x = Date, y = Value)) +
 
 plot(plot)
 
-ggsave(filename = "blueberry_Cu.png", plot = plot, path = 'Z:/WPS/Watershed Science/Water Quality & Aquatic Sciences Unit/NEWS WQ Project/WQ Characterization/R Project/NorthEast/Report/Plots', width = 5, height = 5, units= "in")
+#ggsave(filename = "blueberry_Cu.png", plot = plot, path = 'X', width = 5, height = 5, units= "in")
 
 blue_Fe_plot <- filter(all_data_clean, Variable == "Iron Total", Monitoring_Site == "E250094")
 
@@ -242,7 +249,8 @@ plot <- ggplot(blue_Fe_plot, aes(x = Date, y = Value)) +
 
 plot(plot)
 
-ggsave(filename = "blueberry_Fe.png", plot = plot, path = 'Z:/WPS/Watershed Science/Water Quality & Aquatic Sciences Unit/NEWS WQ Project/WQ Characterization/R Project/NorthEast/Report/Plots', width = 5, height = 5, units= "in")
+#ggsave(filename = "blueberry_Fe.png", plot = plot, path = 'X', width = 5, height = 5, units= "in")
+
 
 blue_Cd_plot <- filter(all_data_limits, Variable == "Cadmium Dissolved", EMS_ID == "E250094")
 
@@ -261,9 +269,10 @@ plot <- ggplot(blue_Cd_plot, aes(x = Date, y = Value)) +
 
 plot(plot)
 
-ggsave(filename = "blueberry_Cd.png", plot = plot, path = 'Z:/WPS/Watershed Science/Water Quality & Aquatic Sciences Unit/NEWS WQ Project/WQ Characterization/R Project/NorthEast/Report/Plots', width = 5, height = 5, units= "in")
+#ggsave(filename = "blueberry_Cd.png", plot = plot, path = 'X', width = 5, height = 5, units= "in")
 
-### 8) Lower Beatton River Watershed
+
+## 8) Lower Beatton River Watershed
 
 DAl_plot <- filter(all_data_limits, EMS_ID == "E207448"| EMS_ID == "E207449", Variable == "Aluminium Dissolved")
 
@@ -278,6 +287,7 @@ plot <- ggplot(DAl_plot, aes(x = Date, y = Value, colour = EMS_ID)) +
 plot(plot)
 ggsave(filename = "Al_lowbeat.png", plot = plot, path = 'D:/Work Docs/Report/Plots', width = 5, height = 5, units= "in")
 
+
 TZn_plot <- filter(all_data_limits, EMS_ID == "E207448"| EMS_ID == "E207449", Variable == "Zinc Total")
 
 plot <- ggplot(TZn_plot, aes(x = Date, y = Value, colour = EMS_ID)) + 
@@ -290,7 +300,7 @@ plot <- ggplot(TZn_plot, aes(x = Date, y = Value, colour = EMS_ID)) +
   ylab("Total Zinc (µg/L)")
 plot(plot)
 
-### 10) Lower Peace River Watershed
+## 10) Lower Peace River Watershed
 
 low_peace <- filter(all_data_clean, Monitoring_Site == "E206585")
 low_peace_quad <- filter(low_peace, Variable == "Turbidity"|Variable =="Selenium Total"|Variable=="Thallium Total"|Variable=="Aluminum Total")
@@ -319,7 +329,8 @@ plot <- ggplot(As_plot, aes(x = Date, y = Value)) +
   ylab("Total Arsenic (µg/L)")
 plot(plot)
 
-ggsave(filename = "As_lowpeace.png", plot = plot, path = 'Z:/WPS/Watershed Science/Water Quality & Aquatic Sciences Unit/NEWS WQ Project/WQ Characterization/R Project/NorthEast/Report/Plots', width = 5, height = 5, units= "in")
+#ggsave(filename = "As_lowpeace.png", plot = plot, path = 'X', width = 5, height = 5, units= "in")
+
 
 TCu_plot <- filter(lowpeace, Variable == "Copper Total")
 TCu_plot$UpperLimit <- NA
@@ -336,7 +347,8 @@ plot <- ggplot(TCu_plot, aes(x = Date, y = Value)) +
   ylab("Total Copper (µg/L)")
 plot(plot)
 
-ggsave(filename = "Cu_lowpeace.png", plot = plot, path = 'Z:/WPS/Watershed Science/Water Quality & Aquatic Sciences Unit/NEWS WQ Project/WQ Characterization/R Project/NorthEast/Report/Plots', width = 5, height = 5, units= "in")
+#ggsave(filename = "Cu_lowpeace.png", plot = plot, path = 'X', width = 5, height = 5, units= "in")
+
 
 Pb_plot <- filter(low_peace, Variable == "Lead Total")
 Pb_plot$UpperLimit <- NA
@@ -353,7 +365,8 @@ plot <- ggplot(Pb_plot, aes(x = Date, y = Value)) +
   ylab("Total Lead (µg/L)")
 plot(plot)
 
-ggsave(filename = "Pb_lowpeace.png", plot = plot, path = 'Z:/WPS/Watershed Science/Water Quality & Aquatic Sciences Unit/NEWS WQ Project/WQ Characterization/R Project/NorthEast/Report/Plots', width = 5, height = 5, units= "in")
+#ggsave(filename = "Pb_lowpeace.png", plot = plot, path = 'X', width = 5, height = 5, units= "in")
+
 
 Ag_plot <- filter(low_peace, Variable == "Silver Total")
 Ag_plot$UpperLimit <- NA
@@ -369,7 +382,8 @@ plot <- ggplot(Ag_plot, aes(x = Date, y = Value)) +
   ylab("Total Silver (µg/L)")
 plot(plot)
 
-ggsave(filename = "Ag_lowpeace.png", plot = plot, path = 'Z:/WPS/Watershed Science/Water Quality & Aquatic Sciences Unit/NEWS WQ Project/WQ Characterization/R Project/NorthEast/Report/Plots', width = 5, height = 5, units= "in")
+#ggsave(filename = "Ag_lowpeace.png", plot = plot, path = 'X', width = 5, height = 5, units= "in")
+
 
 Al_plot <- filter(low_peace, Variable == "Aluminum Total")
 plot <- ggplot(Al_plot, aes(x = Date, y = Value)) + 
@@ -381,10 +395,10 @@ plot <- ggplot(Al_plot, aes(x = Date, y = Value)) +
   ylab("Total Aluminum (µg/L)")
 plot(plot)
 
-ggsave(filename = "Al_lowpeace.png", plot = plot, path = 'Z:/WPS/Watershed Science/Water Quality & Aquatic Sciences Unit/NEWS WQ Project/WQ Characterization/R Project/NorthEast/Report/Plots', width = 5, height = 5, units= "in")
+#ggsave(filename = "Al_lowpeace.png", plot = plot, path = 'X', width = 5, height = 5, units= "in")
 
 
-### 12) Lynx Creek Watershed
+## 12) Lynx Creek Watershed
 
 lynx_Al <- filter(all_data_limits, EMS_ID == "E253393"|EMS_ID == "E253394")
 
@@ -401,10 +415,10 @@ plot <- ggplot(lynx_Al_plot, aes(x = Date, y = Value, colour = EMS_ID)) +
   ylab("Dissolved Aluminum (mg/L)")
 plot(plot)
 
-ggsave(filename = "Al_lynx.png", plot = plot, path = 'Z:/WPS/Watershed Science/Water Quality & Aquatic Sciences Unit/NEWS WQ Project/WQ Characterization/R Project/NorthEast/Report/Plots', width = 7, height = 5, units= "in")
+#ggsave(filename = "Al_lynx.png", plot = plot, path = 'X', width = 7, height = 5, units= "in")
 
 
-### 18) Middle Kiskatinaw River Watershed
+## 18) Middle Kiskatinaw River Watershed
 
 Mid_kisk_Fe <- filter(all_data_clean, Monitoring_Site == "0400545", Variable == "Iron Total")
 plot <- ggplot(Mid_kisk_Fe, aes(x = Date, y = Value)) + 
@@ -417,9 +431,10 @@ plot <- ggplot(Mid_kisk_Fe, aes(x = Date, y = Value)) +
   ylab("Total Iron (mg/L)")
 plot(plot)
 
-ggsave(filename = "mid_kisk_Fe.png", plot = plot, path = 'Z:/WPS/Watershed Science/Water Quality & Aquatic Sciences Unit/NEWS WQ Project/WQ Characterization//Report/Final_plots', width = 5, height = 5, units= "in")
+#ggsave(filename = "mid_kisk_Fe.png", plot = plot, path = 'X', width = 5, height = 5, units= "in")
 
-### 21) Lower Kiskatinaw River Watershed
+
+## 21) Lower Kiskatinaw River Watershed
 
 low_kisk <- filter(all_data_clean, Monitoring_Site == "E228061"|Monitoring_Site == "E228062")
 
@@ -440,9 +455,11 @@ plot <- ggplot(kisk_Fe_plot, aes(x = Date, y = Value, colour = Monitoring_Site))
   xlab("Date") +
   ylab("Total Iron (mg/L)")
 plot(plot)
-ggsave(filename = "lowkisk_Fe.png", plot = plot, path = 'Z:/WPS/Watershed Science/Water Quality & Aquatic Sciences Unit/NEWS WQ Project/WQ Characterization/Report/Final_plots', width = 7, height = 5, units= "in")
 
-### 23) Lower Halfway River Watershed
+#ggsave(filename = "lowkisk_Fe.png", plot = plot, path = 'X', width = 7, height = 5, units= "in")
+
+
+## 23) Lower Halfway River Watershed
 
 low_half <- filter(all_data_clean, EMS_ID == "E249801")
 
@@ -463,7 +480,8 @@ plot <- ggplot(Fe_plot, aes(x = Date, y = Value)) +
   ylab("Value")
 plot(plot)
 
-### 24) Milligan Creek Watershed
+
+## 24) Milligan Creek Watershed
 
 milligan <- filter(all_data_clean, Monitoring_Site == "E249804")
 Al_plot <- filter(all_data_limits, EMS_ID == "E249804", Variable == "Aluminium Dissolved")
@@ -478,9 +496,8 @@ plot <- ggplot(Al_plot, aes(x = Date, y = Value)) +
   ylab("Dissolved Aluminium (mg/L)")
 plot(plot)
 
-ggsave(filename = "mill_Al.png", plot = plot, path = 'Z:/WPS/Watershed Science/Water Quality
-       & Aquatic Sciences Unit/NEWS WQ Project/WQ Characterization/R Project/NorthEast/
-       Report/Plots', width = 5, height = 5, units= "in")
+# ggsave(filename = "mill_Al.png", plot = plot, path = 'X', width = 5, height = 5, units= "in")
+
 
 Zn_plot <- filter(all_data_limits, EMS_ID == "E249804", Variable == "Zinc Total")
 plot <- ggplot(Zn_plot, aes(x = Date, y = Value)) + 
@@ -495,7 +512,8 @@ plot <- ggplot(Zn_plot, aes(x = Date, y = Value)) +
   ylab("Total Zinc (µg/L)")
 plot(plot)
 
-ggsave(filename = "mill_Zn.png", plot = plot, path = 'Z:/WPS/Watershed Science/Water Quality & Aquatic Sciences Unit/NEWS WQ Project/WQ Characterization/R Project/NorthEast/Report/Plots', width = 5, height = 5, units= "in")
+#ggsave(filename = "mill_Zn.png", plot = plot, path = 'X', width = 5, height = 5, units= "in")
+
 
 Fe_plot <- filter(all_data_clean, Monitoring_Site == "E249804", Variable == "Iron Total")
 plot <- ggplot(Fe_plot, aes(x = Date, y = Value)) + 
@@ -508,5 +526,5 @@ plot <- ggplot(Fe_plot, aes(x = Date, y = Value)) +
   ylab("Total Iron (µg/L)")
 plot(plot)
 
-ggsave(filename = "mill_Fe.png", plot = plot, path = 'Z:/WPS/Watershed Science/Water Quality & Aquatic Sciences Unit/NEWS WQ Project/WQ Characterization/R Project/NorthEast/Report/Plots', width = 5, height = 5, units= "in")
+#ggsave(filename = "mill_Fe.png", plot = plot, path = 'X', width = 5, height = 5, units= "in")
 
