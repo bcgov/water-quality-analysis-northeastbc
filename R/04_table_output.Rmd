@@ -45,7 +45,7 @@ source("02_clean_calc_WQG.R")
 ```{r echo = FALSE, results='asis'}
 ## TURBID FLOWS DATA SUMMARY TABLE
 
-## The Upper Peace and Lower Peace Watersheds were separated into turbid and clear flow periods ## to view the data better. All other watersheds included all the years data grouped together. 
+## The Upper Peace and Lower Peace Watersheds were separated into turbid and clear flow periods to view the data better. All other watersheds included all the years data grouped together. 
 
 ## UPPER PEACE
 
