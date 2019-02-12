@@ -10,8 +10,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and limitations under the License.
 
-############################################################################### 
-# Module 2. CLEAN & CALCULATE WQGS
+############################################################################### ## Module 2. CLEAN & CALCULATE WQGS
 ############################################################################### 
 
 ## Have to fill in directory for location of raw data csv for this script to run.
@@ -23,20 +22,16 @@
 all_data_clean <- clean_wqdata(all_data, by = "EMS_ID", delete_outliers = TRUE)
 
 
-## UNIT CONVERSION FROM mg/L to ug/L. Define your list of parameters once and use it repeatedly.
-## ONLY RUN IF WANT UNITS CONVERTED FOR CLEAN DATA. DOESN'T WORK IF WANT TO USE CALC LIMITS
-params_ug_L <- c("Arsenic Total", "Cadmium Dissolved", "Cobalt Total", "Copper Total", "Cyanide WAD", 
-                 "Lead Total", "Mercury Total", "Napthalene (C10H8)", "Nickel Total", "Selenium Total", 
-                 "Silver Total", "Thallium Total", "Toluene", "Uranium Total", "Zinc Total")
+## UNIT CONVERSION FROM mg/L to ug/L for a defined list of parameters.
+## ONLY RUN IF WANT UNITS CONVERTED FOR CLEAN DATA. DOESN'T WORK IF WANT TO USE THE CALC LIMITS FUNCTION AS IT NEEDS ALL UNITS IN MG/L.
+params_ug_L <- c("Arsenic Total", "Cadmium Dissolved", "Cobalt Total", "Copper Total", "Cyanide WAD", "Lead Total", "Mercury Total", "Napthalene (C10H8)", "Nickel Total", "Selenium Total", "Silver Total", "Thallium Total", "Toluene", "Uranium Total", "Zinc Total")
 
-all_data_clean <- mutate(all_data_clean,
-                         Value = ifelse(Variable %in% params_ug_L, Value * 1000, Value),
-                         Units = ifelse(Variable %in% params_ug_L, "µg/L", Units))
+all_data_clean <- mutate(all_data_clean, Value = ifelse(Variable %in% params_ug_L, Value * 1000, Value), Units = ifelse(Variable %in% params_ug_L, "µg/L", Units))
 
 ## WRITE CSV FOR RAW DATASET
 # write.csv(all_data_clean, 'all_data_clean.csv', row.names = FALSE)
 
-## View summary of parameters included in the dataframe
+## View summary of parameters, sample states and monitoring sites included in the dataframe
 parameters <- distinct(all_data_clean, Variable) 
 sample_state <- distinct(bind_data, SAMPLE_STATE, SAMPLE_DESCRIPTOR)
 sites <- distinct(all_data_clean, EMS_ID)
@@ -44,15 +39,10 @@ sites <- distinct(all_data_clean, EMS_ID)
 ## CALCULATE AQUATIC LIFE WATER QUALITY GUIDELINES
 ## Drops parameters without limits (water quality guidelines (WQGs))
 ## To use the long-term WQGs on daily values set `term = "long-daily`. 
-## If a limit depends on another variable such as pH, Total Chloride, or Total Hardness and no value was 
-## recorded for the date of interest then the pH, Total Chloride or Total Hardness value is assumed to 
-## be the average recorded value over the 30 day period. The one exception is if 
-## `estimate_variables = TRUE`, in which case a parametric model is used to predict the pH, Total Chloride
-## and Total Hardness for all dates with a value of any variable. 
+## If a limit depends on another variable such as pH, Total Chloride, or Total Hardness and no value was recorded for the date of interest then the pH, Total Chloride or Total Hardness value is assumed to be the average recorded value over the 30 day period. The one exception is if 'estimate_variables = TRUE`, in which case a parametric model is used to predict the pH, Total Chloride and Total Hardness for all dates with a value of any variable. 
 ## Deletes any parameters which don't have limits
-# all_data_limits <- calc_limits(all_data_clean, by = "EMS_ID", 
-#                                term = "long-daily", estimate_variables = TRUE, 
-#                                clean = FALSE, messages = TRUE)
+## 
+# all_data_limits <- calc_limits(all_data_clean, by = "EMS_ID", term = "long-daily", estimate_variables = TRUE, clean = FALSE, messages = TRUE)
 
 ## WATERSHED DATAFRAMES
 ## Add watershed column to dataframe and assign watershed name to a set of monitoring sites
@@ -61,26 +51,7 @@ all_data_clean$Watershed <- NA
 
 colnames(all_data_clean)[which(names(all_data_clean) == "Monitoring_Site")] <- "EMS_ID"
 
-all_data_clean$Watershed[all_data_clean$EMS_ID %in% c("1177702","E306397","E308499","E260100","E306398","E308498",
-                                                      "E308497","E308496","E306399","E277175","E277174","E277176",
-                                                      "E206319","E206757","E277178","E277172","0410097","E304933",
-                                                      "E273200","E277177","E273199","E234064","E273195","E273196",
-                                                      "E206322","E308494","E308493","E273193","E273194","E306408",
-                                                      "E306409","E298950","E277176","E277173","E308815","E241806",
-                                                      "E308686","E308677","E308812","E308814","E308811","E308670",
-                                                      "E308813","E308669","E234066","E308668","E309376","E274887",
-                                                      "E308810","E308809","E234065","E274889","E309386","E309378",
-                                                      "E309377","E309385","E309383","E309384","E309382","E309394",
-                                                      "E308687","E309392","E274888","E309390","E309381","E309389",
-                                                      "E309391","E309380","E309393","0410092","E308672","0410059",
-                                                      "E308994","E308993","E206321","E206973","E308667","E308679",
-                                                      "E304951","E308667","E308986","E308988","E309387","E309388",
-                                                      "E206323","0410057","E304936","E308989","E308997","E308818",
-                                                      "E206324","E308995","E305987","E305989","0410060","0410092",
-                                                      "E308994","E206526","E309379","E242344","E308990","E289554",
-                                                      "0410099","0410100","E206755","0410058","E207460","E289553",
-                                                      "E295109","E289556","E308820","E277611","E277610","E277609",
-                                                      "E308495","E289552","0400552","E210870","E279733")]  <- "Murray River"
+all_data_clean$Watershed[all_data_clean$EMS_ID %in% c("1177702","E306397","E308499","E260100","E306398","E308498", "E308497","E308496","E306399","E277175","E277174","E277176", "E206319","E206757","E277178","E277172","0410097","E304933","E273200","E277177","E273199","E234064","E273195","E273196","E206322","E308494","E308493","E273193","E273194","E306408","E306409","E298950","E277176","E277173","E308815","E241806","E308686","E308677","E308812","E308814","E308811","E308670","E308813","E308669","E234066","E308668","E309376","E274887","E308810","E308809","E234065","E274889","E309386","E309378","E309377","E309385","E309383","E309384","E309382","E309394","E308687","E309392","E274888","E309390","E309381","E309389", "E309391","E309380","E309393","0410092","E308672","0410059","E308994","E308993","E206321","E206973","E308667","E308679", "E304951","E308667","E308986","E308988","E309387","E309388", "E206323","0410057","E304936","E308989","E308997","E308818","E206324","E308995","E305987","E305989","0410060","0410092","E308994","E206526","E309379","E242344","E308990","E289554","0410099","0410100","E206755","0410058","E207460","E289553", "E295109","E289556","E308820","E277611","E277610","E277609", "E308495","E289552","0400552","E210870","E279733")]  <- "Murray River"
 
 all_data_clean$Watershed[all_data_clean$EMS_ID %in% c("0410039","E206959","E206705","0410042","E209204","E206703","E209205","E209207","E209201","E209206","E209202","E209208","E206706","0410040","0410032","0410031","E234288","0410033","0410034")]  <- "Pouce Coupe River"
 
@@ -116,6 +87,7 @@ all_data_clean$Watershed[all_data_clean$EMS_ID=="E243640"]  <- "Klua Creek"
 
 colnames(all_data_clean)[which(names(all_data_clean) == "EMS_ID")] <- "Monitoring_Site"
 
+## For each watershed, filter out the watershed you want to summarize, change the date format, view how many years of data there is, and how many parameters there are. *This could be written in a loop for each watershed. 
 ## UPPER PEACE RIVER
 
 up_peace <- filter(all_data_clean, Watershed == "Upper Peace River")
