@@ -42,6 +42,7 @@ sites <- distinct(all_data_clean, EMS_ID)
 ## If a limit depends on another variable such as pH, Total Chloride, or Total Hardness and no value was recorded for the date of interest then the pH, Total Chloride or Total Hardness value is assumed to be the average recorded value over the 30 day period. The one exception is if 'estimate_variables = TRUE`, in which case a parametric model is used to predict the pH, Total Chloride and Total Hardness for all dates with a value of any variable. 
 ## Deletes any parameters which don't have limits
 ## 
+## Have to run this to put the WQG line on the graphs in the 03_initial_vis script. 
 # all_data_limits <- calc_limits(all_data_clean, by = "EMS_ID", term = "long-daily", estimate_variables = TRUE, clean = FALSE, messages = TRUE)
 
 ## WATERSHED DATAFRAMES
