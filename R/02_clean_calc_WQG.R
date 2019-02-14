@@ -29,7 +29,7 @@ params_ug_L <- c("Arsenic Total", "Cadmium Dissolved", "Cobalt Total", "Copper T
 all_data_clean <- mutate(all_data_clean, Value = ifelse(Variable %in% params_ug_L, Value * 1000, Value), Units = ifelse(Variable %in% params_ug_L, "µg/L", Units))
 
 ## WRITE CSV FOR RAW DATASET
-# write.csv(all_data_clean, 'all_data_clean.csv', row.names = FALSE)
+#write.csv(all_data_clean, 'all_data_clean.csv', row.names = FALSE)
 
 ## View summary of parameters, sample states and monitoring sites included in the dataframe
 parameters <- distinct(all_data_clean, Variable) 
@@ -43,7 +43,7 @@ sites <- distinct(all_data_clean, EMS_ID)
 ## Deletes any parameters which don't have limits
 ## 
 ## Have to run this to put the WQG line on the graphs in the 03_initial_vis script. 
-# all_data_limits <- calc_limits(all_data_clean, by = "EMS_ID", term = "long-daily", estimate_variables = TRUE, clean = FALSE, messages = TRUE)
+all_data_limits <- calc_limits(all_data_clean, by = "EMS_ID", term = "long-daily", estimate_variables = TRUE, clean = FALSE, messages = TRUE)
 
 ## WATERSHED DATAFRAMES
 ## Add watershed column to dataframe and assign watershed name to a set of monitoring sites
