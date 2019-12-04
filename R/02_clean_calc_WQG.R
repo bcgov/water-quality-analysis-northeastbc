@@ -19,7 +19,7 @@
 ## Changes negative temperature values to 0 and deletes rows with missing values
 ## Replicates on same day are averaged. 
 ## Identifies outliers. These can be kept or deleted (`delete_outliers = TRUE` or `delete_outliers = FALSE`). 
-all_data_clean <- clean_wqdata(all_data, by = "EMS_ID", delete_outliers = TRUE)
+#all_data_clean <- clean_wqdata(all_data, by = "EMS_ID", delete_outliers = FALSE)
 
 
 ## UNIT CONVERSION FROM mg/L to ug/L for a defined list of parameters.
@@ -60,7 +60,7 @@ all_data_clean$Watershed[all_data_clean$EMS_ID %in% c("0400492","0400134","E2498
 
 all_data_clean$Watershed[all_data_clean$EMS_ID %in% c("0410029","0400562","E250093","E242324","E206235","0410093")]  <- "Upper Pine River"
 
-all_data_clean$Watershed[all_data_clean$EMS_ID=="E250094"] <- "Blueberry River"
+all_data_clean$Watershed[all_data_clean$EMS_ID==c("E250094","E257094")] <- "Blueberry River"
 
 all_data_clean$Watershed[all_data_clean$EMS_ID %in% c("E207448","E207449","0400145","E219248","E219248","E218979","0410023","E207902","E207901","E250091","E207904","E249803","0400397")]  <- "Lower Beatton River"
 
