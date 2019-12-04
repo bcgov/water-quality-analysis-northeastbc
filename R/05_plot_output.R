@@ -528,3 +528,23 @@ plot(plot)
 
 #ggsave(filename = "mill_Fe.png", plot = plot, path = 'X', width = 5, height = 5, units= "in")
 
+
+
+
+## Facet plots for blueberry sites and parameters
+blue2 <- all_data %>%
+  filter(EMS_ID %in% c("E250094", "E257094"),
+         Variable %in% c("Aluminum Dissolved", "Arsenic Total", "Barium Total", "Cadmium Dissolved", "Lead Total", 
+                         "Molybdenum Total", "Phosphorus Total", "Selenium Total", "Temperature","Turbidity", "Iron Total"))
+ggplot2::ggplot(data = blue2, aes(x = DateTime, y = Value)) +
+  geom_point() +
+  facet_grid(Variable ~ EMS_ID, scales = "free_y")
+
+## Facet plots for lower beatton
+lowbeat2 <- all_data %>%
+  filter(EMS_ID %in% c("E207448", "E207449"),
+         Variable %in% c("Arsenic Total", "Barium Total", "Cadmium Dissolved", "Lead Total", 
+                         "Molybdenum Total", "Phosphorus Total", "Selenium Total", "Temperature","Turbidity", "Iron Total"))
+ggplot2::ggplot(data = lowbeat2, aes(x = DateTime, y = Value)) +
+  geom_point() +
+  facet_grid(Variable ~ EMS_ID, scales = "free_y")
