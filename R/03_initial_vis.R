@@ -45,7 +45,7 @@ for (v in mgL) {
     xlab("Date") +
     ylab("Value")
   plot(plot)
-  #ggsave(filename = paste0(v,".png"), plot = plot, units= "in")
+  ggsave(filename = paste0(v,".png"), plot = plot, units= "in")
 }
 
 ## ug/L parameters plots
@@ -61,7 +61,7 @@ for (v in ugL) {
     xlab("Date") +
     ylab("Value")
   plot(plot)
-  #ggsave(filename = paste0(v,".png"), plot = plot, units= "in")
+  ggsave(filename = paste0(v,".png"), plot = plot, units= "in")
 }
 
 ## SINGLE PLOTS for single unit parameters
@@ -74,37 +74,37 @@ pHplot <- ggplot(site_pH, aes(x=Date, y=Value)) +
   xlab("Date") + 
   ylab("pH")
 plot(pHplot)
-#ggsave(filename = "pHplot.png", plot = pHplot, units= "in") 
+ggsave(filename = "pHplot.png", plot = pHplot, units= "in") 
 
 ## Temperature
-E206585_temp <-filter(all_data_clean, Variable=="Temperature") 
+E257094_temp <-filter(all_data_clean, Variable=="Temperature") 
 tempplot <- ggplot(E206585_temp, aes(x=Date, y=Value)) + geom_point(colour="blue") + 
   scale_x_date(labels = date_format("%b %Y"))+
   xlab("Date") + ylab("Temperature (Celcius)")
 plot(tempplot)
-#ggsave(filename = "temp_plot.png", plot = tempplot, units= "in") 
+ggsave(filename = "temp_plot.png", plot = tempplot, units= "in") 
 
-Conductivity
-E206585_cond <-filter(all_data_clean, Variable=="Conductance")
+## Conductivity
+E257094_cond <-filter(all_data_clean, Variable=="Conductance")
 condplot <- ggplot(E206585_cond, aes(x=Date, y=Value)) + geom_point(colour="blue") + 
   xlab("Date") + ylab("Conductivity (us/cm)")
 plot(condplot)
-#ggsave(filename = "cond_plot.png", plot = pHplot, units= "in", dpi = 120) 
+ggsave(filename = "cond_plot.png", plot = pHplot, units= "in", dpi = 120) 
 
 ## E coli
-E206585_Ecol <-filter(all_data_clean, Variable=="E. coli")
+E257094_Ecol <-filter(all_data_clean, Variable=="E. coli")
 Ecolplot <- ggplot(E206585_Ecol, aes(x=Date, y=Value)) + geom_point(colour="blue") + 
   scale_x_date(labels = date_format("%b %Y"))+
   ylab("(E. coli per 100 mL)")
 plot(Ecolplot)
-#ggsave(filename = "Ecoli_plot.png", plot = Ecolplot, units= "in") 
+ggsave(filename = "Ecoli_plot.png", plot = Ecolplot, units= "in") 
 
 ## Turbidity 
-E206585_turb <-filter(all_data_clean, Variable=="Turbidity")
+E257094_turb <-filter(all_data_clean, Variable=="Turbidity")
 turbplot <- ggplot(E206585_turb, aes(x=Date, y=Value)) + geom_point(colour="blue") + 
   scale_x_date(labels = date_format("%b %Y")) + ylab("Turbidity (NTU)")
 plot(turbplot) 
-#ggsave(filename = "turbs_plot.png", plot = turbplot, units= "in") 
+ggsave(filename = "turbs_plot.png", plot = turbplot, units= "in") 
 
 ## Hardness Dissolved
 hardness <- filter(all_data_clean, Variable=="Hardness Dissolved")
@@ -136,7 +136,7 @@ for (v in mgL_withWQG) {
     xlab("Date") +
     ylab("Value")
   plot(plot)
-  #ggsave(filename = paste0(v,".png"), plot = plot, units= "in")
+  ggsave(filename = paste0(v,".png"), plot = plot, units= "in")
 }
 
 ## ug/L parameters plots
@@ -152,6 +152,6 @@ for (v in ugL_withWQG) {
     xlab("Date") +
     ylab("Value")
   plot(plot)
-  #ggsave(filename = paste0(v,".png"), plot = plot, units= "in")
+  ggsave(filename = paste0(v,".png"), plot = plot, units= "in")
 }
 
